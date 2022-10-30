@@ -13,5 +13,5 @@ echo "<html>
 </html>" >> /data/web_static/releases/test/index.html
 sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
 sudo chown -R ubuntu:ubuntu /data/
-sed -i "25i \\\tserver {\tlocation /hbnb_static {\n\talias /data/web_static/current/;\n\t}\t}" /etc/nginx/nginx.conf
+sudo sed -i "25i \\\tserver {\tlocation /hbnb_static {\n\talias /data/web_static/current/;\n\t}\t}" /etc/nginx/nginx.conf
 sudo service nginx restart
