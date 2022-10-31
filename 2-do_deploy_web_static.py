@@ -30,20 +30,19 @@ def do_deploy(archive_path):
         script that distributes an archive file to web server
     """
     try:
-        path = os.path.basename(archive_path)
-        file = path.split('.')
+        archive = archive_path.split('/')[-1]
+        filename = os.path.basename(archive_path)
+        file = filename.split('.')
         folder = file[0]
+        path = '/data/web_static/releases/' + folder
         put(archive_path, '/tmp')
-        run('sudo mkdir -p /data/web_static/releases/{}'.format(folder))
-        run('sudo tar -xzf /tmp{} -C /data/web_static/releases/{}'.
-            format(archive_path, folder))
-        run('mv /data/web_static/releases/{}/web_static/* /data/web_static/releases/{}'
-            .format(folder, folder))
-        run('sudo rm -rf /data/web_static/releases/{}/web_static'.format(folder))
-        run('sudo rm /tmp{}'.format(archive_path))
-        run('sudo rm -rf /data/web_static/current')
-        run('sudo ln -s /data/web_static/releases/{} /data/web_static/current'.
-            format(folder))
+        run('mkdir -p {}/'.format(path))
+        run('tar -xzf /tmp/{} -C {}'.format(archive, path))
+        run('mv {}/web_static/* {}'.format(path, path))
+        run('rm -rf {}/web_static'.format(path))
+        run('rm /tmp/{}'.format(archive))
+        run('rm -rf /data/web_static/current')
+        run('ln -s {} /data/web_static/current'.format(path))
         print('New version deployed!')
         return True
     except:
