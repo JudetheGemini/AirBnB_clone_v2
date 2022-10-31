@@ -2,8 +2,9 @@
 """
 Fabric python file
 """
-from fabric.api import put, run, env
+from fabric.api import put, run, env, local
 import os
+import datetime
 
 env.user = 'ubuntu'
 env.hosts = ['34.204.177.254', '18.207.112.39']
