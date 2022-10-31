@@ -29,9 +29,7 @@ def do_deploy(archive_path):
     """
         script that distributes an archive file to web server
     """
-    if not archive_path:
-        return False
-    else:
+    try:
         # make sure the directory is there
         put(archive_path, '/tmp/')
         path = os.path.basename(archive_path)
@@ -49,3 +47,5 @@ def do_deploy(archive_path):
             format(folder))
         print('New version deployed!')
         return True
+    except:
+        return False
