@@ -4,8 +4,11 @@ Python script that uses the fabric ;ocal api
 to execute bash commands to create a folder and
 create a tar file
 """
-from fabric.api import local
+from fabric.api import local, env
 from datetime import datetime
+
+env.user = 'ubuntu'
+env.hosts = ['34.204.177.254', '18.207.112.39']
 
 
 def do_pack():
