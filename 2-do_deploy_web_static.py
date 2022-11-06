@@ -26,24 +26,45 @@ def do_pack():
 
 
 def do_deploy(archive_path):
-    """
-        script that distributes an archive file to web server
+    """Deploy the boxing package tgz file
     """
     try:
         archive = archive_path.split('/')[-1]
-        filename = os.path.basename(archive_path)
-        file = filename.split('.')
-        folder = file[0]
-        path = '/data/web_static/releases/' + folder
+        path = '/data/web_static/releases/' + archive.strip('.tgz')
+        current = '/data/web_static/current'
         put(archive_path, '/tmp')
-        run('mkdir -p {}/'.format(path))
+        run('mkdir -p {}'.format(path))
         run('tar -xzf /tmp/{} -C {}'.format(archive, path))
         run('rm /tmp/{}'.format(archive))
         run('mv {}/web_static/* {}'.format(path, path))
         run('rm -rf {}/web_static'.format(path))
-        run('rm -rf /data/web_static/current')
-        run('ln -s {} /data/web_static/current'.format(path))
+        run('rm -rf {}'.format(current))
+        run('ln -s {} {}'.format(path, current))
         print('New version deployed!')
         return True
     except:
         return False
+
+
+# def do_deploy(archive_path):
+#     """
+#         script that distributes an archive file to web server
+#     """
+#     try:
+#         archive = archive_path.split('/')[-1]
+#         filename = os.path.basename(archive_path)
+#         file = filename.split('.')
+#         folder = file[0]
+#         path = '/data/web_static/releases/' + folder
+#         put(archive_path, '/tmp')
+#         run('mkdir -p {}/'.format(path))
+#         run('tar -xzf /tmp/{} -C {}'.format(archive, path))
+#         run('rm /tmp/{}'.format(archive))
+#         run('mv {}/web_static/* {}'.format(path, path))
+#         run('rm -rf {}/web_static'.format(path))
+#         run('rm -rf /data/web_static/current')
+#         run('ln -s {} /data/web_static/current'.format(path))
+#         print('New version deployed!')
+#         return True
+#     except:
+#         return False
